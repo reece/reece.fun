@@ -1,7 +1,7 @@
-reece.fun
-!!!!!!!!!
+reece.sandbox
+!!!!!!!!!!!!!
 
-*silly whizbangs*
+A collection of tools and whizbangs that don't readily fit elsewhere.
 
 ----
 

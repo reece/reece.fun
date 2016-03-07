@@ -73,7 +73,7 @@ class WordMatcher(object):
 
     def find_options(self, letters, patterns, min_length=3, must_use=""):
         for p in patterns:
-            yield (p, list(wm.find_subwords_for_pattern(letters=letters, pattern=p, min_length=min_length, must_use=must_use)))
+            yield (p, list(self.find_subwords_for_pattern(letters=letters, pattern=p, min_length=min_length, must_use=must_use)))
 
 if __name__ == "__main__":
     wm = WordMatcher("words.txt.gz")
