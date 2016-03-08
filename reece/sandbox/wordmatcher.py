@@ -76,4 +76,4 @@ class WordMatcher(object):
             yield (p, list(self.find_subwords_for_pattern(letters=letters, pattern=p, min_length=min_length, must_use=must_use)))
 
 if __name__ == "__main__":
-    wm = WordMatcher("words.txt.gz")
+    wm = WordMatcher("reece/sandbox/_data/wordlists/words.txt.gz")
