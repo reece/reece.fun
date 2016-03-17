@@ -104,6 +104,13 @@ class WordMatcher(object):
         return (w
                 for w in itertools.chain.from_iterable(self._key_wordlist_map[k] for k in subkeys))
 
+    def find_superwords(self, s):
+        "given a set of letters, return a list of words that contain those letters"
+        s_wk = WordKey(s)
+        subkeys = [k for k in self._key_wordlist_map.keys() if s_wk.spellable_with(k)]
+        return (w
+                for w in itertools.chain.from_iterable(self._key_wordlist_map[k] for k in subkeys))
+
     # consider returning flat structure like {blanks, word}
     # return in desc length order?
     def find_subwords_for_pattern(self, tiles, pattern):
