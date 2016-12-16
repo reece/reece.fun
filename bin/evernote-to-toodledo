@@ -50,6 +50,7 @@ Useful references:
 """
 
 
+import collections
 import logging
 import os
 import time
@@ -95,13 +96,17 @@ if __name__ == "__main__":
     # notebooks = filter(lambda nb: nb.name in "geekery recipes".split(), notebooks)  # DEBUGGING
 
     folders_needed = set(nb_prefix + nb.name for nb in notebooks) - set(f["name"] for f in tc.getFolders())
+    folders_needed.discard("Default")
     for fn in folders_needed:
         logger.info("Making folder " + fn)
         tc.addFolder(name=fn.encode("UTF-8"))
 
     folder_id_map = {f["name"]: f["id"] for f in tc.getFolders()}
+    folder_id_map["No Folder"] = 0
 
-    t_existing_notes = set((nb["folder"], nb["title"]) for nb in tc.getNotebooks())
+    existing_notes = collections.defaultdict(set)
+    for nb in tc.getNotebooks():
+        existing_notes[nb["title"]].add(nb["folder"])
 
     spec = NotesMetadataResultSpec()
 
@@ -112,11 +117,15 @@ if __name__ == "__main__":
         nmds = ens.findNotesMetadata(nf, 0, 1000, spec)
         for nmd in nmds.notes:
             note = ens.getNote(nmd.guid, True, False, False, False)
-            fn = nb_prefix + nb.name
-            fn_id = folder_id_map[fn]
-            if (fn_id, note.title) in t_existing_notes:
-                logger.info("Skipping {nb.name}/{note.title}: exists".format(
-                    nb=nb, note=note))
+            if nb.name == "Default":
+                fn_id = 0
+            else:
+                fn = nb_prefix + nb.name
+                fn_id = folder_id_map[fn]
+            if note.title in existing_notes:
+                logger.info("Skipping {nb.name}/{note.title}: exists {c}".format(
+                    nb=nb, note=note,
+                    c="(in different folder)" if (fn_id != existing_notes[note.title]) else ""))
                 continue
             content = note.content.decode("UTF-8")
             try:
