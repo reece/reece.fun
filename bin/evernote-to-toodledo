@@ -21,21 +21,21 @@ $ pip install evernote html2text poodledo requests yaml
 You'll need files like these:
 
 $ cat <<EOF >~/.config/toodledo.yml
-# https://api.toodledo.com/2/account/doc_register.php
 # If you get ToodledoError: Toodledo server returned error: Excessive
 # Tokens you'll need to get a new token :-/
 
+# Get token at https://api.toodledo.com/2/account/doc_register.php
 app:
   id: 
-  token: api58533dc20f675
+  token: api5853...
 
 credentials:
-  email: 
+  email: yourtoodledo@email.address
   passwd: ...
 EOF
 
 $ cat <<EOF >~/.config/evernote.yml
-# https://www.evernote.com/api/DeveloperToken.action
+# get auth_token https://www.evernote.com/api/DeveloperToken.action
 credentials:
   auth_token: "S=s666:U=..."
 EOF
